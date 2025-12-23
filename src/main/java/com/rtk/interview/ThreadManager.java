@@ -33,7 +33,7 @@ public class ThreadManager {
         THREADS_CONFIGURATIONS.forEach(
                 threadConfiguration ->
                         executorService.scheduleAtFixedRate(() -> runThread(threadConfiguration),
-                                0, threadConfiguration.getWakeIntervalInSec(), TimeUnit.SECONDS)
+                                RANDOM.nextInt(500), threadConfiguration.getWakeIntervalInMillis(), TimeUnit.MILLISECONDS)
         );
     }
 
