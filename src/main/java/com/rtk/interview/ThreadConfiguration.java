@@ -3,7 +3,7 @@ package com.rtk.interview;
 import lombok.Data;
 
 /**
- * Configuration class to allow {@link ThreadManager} class work with different amount of calculation threads
+ * Configuration class to allow {@link ThreadService} class work with different amount of calculation threads
  */
 @Data
 public class ThreadConfiguration {
