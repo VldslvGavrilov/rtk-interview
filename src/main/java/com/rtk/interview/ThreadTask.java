@@ -24,10 +24,10 @@ public class ThreadTask implements Runnable {
             if (lockAvailableResources()) {
                 CompletableFuture.runAsync(() -> {
                     try {
-                        int threadSleepTime = calculateIntervalInSec(threadConfiguration.getDurationMaxInSec(), threadConfiguration.getDurationMaxInSec());
-                        System.out.println(MessageFormat.format("ThreadId: {0}. All random locks are free. Locking them... Delay in sec: {1}", threadId, threadSleepTime));
+                        int threadCalculationTime = calculateIntervalInSec(threadConfiguration.getDurationMaxInSec(), threadConfiguration.getDurationMaxInSec());
+                        System.out.println(MessageFormat.format("ThreadId: {0}. All random locks are free. Locking them... Delay in sec: {1}", threadId, threadCalculationTime));
                         //Производим вычисления...(выставляем задержку)
-                        TimeUnit.SECONDS.sleep(threadSleepTime);
+                        TimeUnit.SECONDS.sleep(threadCalculationTime);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } finally {
