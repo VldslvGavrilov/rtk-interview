@@ -12,25 +12,29 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadService {
 
-    private static final List<ThreadConfiguration> THREADS_CONFIGURATIONS = List.of(
-            new ThreadConfiguration(1, 10, 3, 12, 2),
-            new ThreadConfiguration(2, 5, 2, 7, 2)
-    ) ;
-
     private static final Random RANDOM = new Random();
 
-    private static final List<ReentrantLock> LOCKS = List.of(
-            new ReentrantLock(),
-            new ReentrantLock(),
-            new ReentrantLock(),
-            new ReentrantLock(),
-            new ReentrantLock());
+    private final List<ThreadConfiguration> threadConfigurations;
 
+    private final List<ReentrantLock> reentrantLocks;
+
+    public ThreadService() {
+        threadConfigurations = List.of(
+                new ThreadConfiguration(1, 10, 3, 12, 2),
+                new ThreadConfiguration(2, 5, 2, 7, 2));
+
+        reentrantLocks = List.of(
+                new ReentrantLock(),
+                new ReentrantLock(),
+                new ReentrantLock(),
+                new ReentrantLock(),
+                new ReentrantLock());
+    }
 
     public void runTest() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREADS_CONFIGURATIONS.size());
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(threadConfigurations.size());
         //Запускаю выполнение потоков со случайной задежкой до 150 мс во избежании одновременного обращения к локам при первом запуске
-        THREADS_CONFIGURATIONS.forEach(
+        threadConfigurations.forEach(
                 threadConfiguration ->
                         executorService.scheduleAtFixedRate(() -> runThread(threadConfiguration),
                                 RANDOM.nextInt(150), threadConfiguration.getWakeIntervalInMillis(), TimeUnit.MILLISECONDS)
@@ -60,7 +64,7 @@ public class ThreadService {
         }
     }
 
-    private static List<ReentrantLock> getRandomLocks (int numberOfLocks) {
+    private List<ReentrantLock> getRandomLocks (int numberOfLocks) {
         List <ReentrantLock> locks = new ArrayList<>(numberOfLocks);
         for (int i = 0; i < numberOfLocks; i++) {
             locks.add(getRandomLock());
@@ -68,8 +72,8 @@ public class ThreadService {
         return locks;
     }
 
-    private static ReentrantLock getRandomLock() {
-        return LOCKS.get(RANDOM.nextInt(LOCKS.size()));
+    private ReentrantLock getRandomLock() {
+        return reentrantLocks.get(RANDOM.nextInt(reentrantLocks.size()));
     }
 
     private static int calculateIntervalInMillis(int minInSec, int maxInSec) {
