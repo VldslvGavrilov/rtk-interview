@@ -15,8 +15,4 @@ public class ThreadConfiguration {
     private final int durationMinInSec;
     private final int durationMaxInSec;
     private final int numberOfResources;
-
-    public int getWakeIntervalInMillis () {
-        return this.wakeIntervalInSec * 1000;
-    }
 }
