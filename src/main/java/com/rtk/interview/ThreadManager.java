@@ -43,6 +43,7 @@ public class ThreadManager {
         List<ReentrantLock> locks = getRandomLocks(threadConfiguration.getNumberOfResources());
         try {
             //Здесь решил пойти по пути предварительной проверки блокировок и брать их в работу только при условии всех свободных объектов блокировок
+            //Таким образом, ситуация с дедлоком тоже не должна произойти
             boolean allLocksFree = locks.stream().noneMatch(ReentrantLock::isLocked);
             if (allLocksFree) {
                 System.out.println(MessageFormat.format("ThreadId: {0}. All random locks are free. Locking them...", threadId));
