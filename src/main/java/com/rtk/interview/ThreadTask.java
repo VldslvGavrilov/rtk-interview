@@ -26,6 +26,7 @@ public class ThreadTask implements Runnable {
                     try {
                         int threadSleepTime = calculateIntervalInSec(threadConfiguration.getDurationMaxInSec(), threadConfiguration.getDurationMaxInSec());
                         System.out.println(MessageFormat.format("ThreadId: {0}. All random locks are free. Locking them... Delay in sec: {1}", threadId, threadSleepTime));
+                        //Производим вычисления...(выставляем задержку)
                         TimeUnit.SECONDS.sleep(threadSleepTime);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -35,6 +36,7 @@ public class ThreadTask implements Runnable {
                 });
             }
             try {
+                //Засыпаем в ожидании следующей итерации
                 TimeUnit.SECONDS.sleep(threadConfiguration.getWakeIntervalInSec());
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
