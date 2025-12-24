@@ -29,10 +29,11 @@ public class ThreadService {
 
     public void runTest() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREADS_CONFIGURATIONS.size());
+        //Запускаю выполнение потоков со случайной задежкой до 150 мс во избежании одновременного обращения к локам при первом запуске
         THREADS_CONFIGURATIONS.forEach(
                 threadConfiguration ->
                         executorService.scheduleAtFixedRate(() -> runThread(threadConfiguration),
-                                RANDOM.nextInt(500), threadConfiguration.getWakeIntervalInMillis(), TimeUnit.MILLISECONDS)
+                                RANDOM.nextInt(150), threadConfiguration.getWakeIntervalInMillis(), TimeUnit.MILLISECONDS)
         );
     }
 
