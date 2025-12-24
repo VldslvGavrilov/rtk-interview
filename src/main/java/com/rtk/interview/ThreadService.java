@@ -34,6 +34,7 @@ public class ThreadService {
     public void runTest() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(threadConfigurations.size());
         //Запускаю выполнение потоков со случайной задежкой до 150 мс во избежании одновременного обращения к локам при первом запуске
+        //Не полностью доволен таким решением, так как результат зависит от конфигурации железа и объема данных, другого пока не вижу
         threadConfigurations.forEach(
                 threadConfiguration ->
                         executorService.scheduleAtFixedRate(() -> runThread(threadConfiguration),
@@ -47,7 +48,7 @@ public class ThreadService {
         List<ReentrantLock> locks = getRandomLocks(threadConfiguration.getNumberOfResources());
         try {
             //Здесь решил пойти по пути предварительной проверки блокировок и брать их в работу только при условии всех свободных объектов блокировок
-            //Таким образом, ситуация с дедлоком тоже не должна произойти
+            //Таким образом, ситуация с дедлоком здесь не должна произойти
             boolean allLocksFree = locks.stream().noneMatch(ReentrantLock::isLocked);
             if (allLocksFree) {
                 int threadSleepTimeInMillis = calculateIntervalInMillis(threadConfiguration.getDurationMinInSec(), threadConfiguration.getDurationMaxInSec());
